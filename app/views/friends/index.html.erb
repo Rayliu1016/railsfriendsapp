@@ -1,0 +1,45 @@
+<% if user_signed_in? %>
+  <table class= "table table-striped table-bordered table-hover">
+    <thead class='table-dark'>
+      <tr>
+        <th><strong>Name</strong></th>
+        <th><strong>Email</strong></th>
+        <th><strong>Phone</strong></th>
+        <th><strong>Twitter</strong></th>
+        <th><strong>Delete?</strong></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @friends.each do |friend| %>
+        <% if friend.user == current_user %>
+        <tr>
+          <td>
+            <%= link_to friend.first_name + ' ' + friend.last_name, friend %>
+          </td>
+          <td><%= friend.email %></td>
+          <td><%= friend.phone %></td>
+          <td><%= friend.twitter %></td>
+          <td>
+            <%= link_to 'Delete', friend, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-outline-danger btn-small"%> 
+          </td>
+    
+
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  <br/>
+
+  <%= link_to "New friend", new_friend_path, class:"btn btn-secondary" %>
+<% else %>
+  <h1>Welcome to the <strong><i>Friends App!</i></strong></h1>
+  <p>
+  New here? <%= link_to "Sign up", new_user_registration_path %>
+  </p>
+
+  <p>
+  Already a user? <%= link_to "Log in", new_user_session_path %>
+  </p>
+<% end %>
+
